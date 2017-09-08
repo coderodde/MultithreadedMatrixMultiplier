@@ -52,7 +52,7 @@ matrix_t* matrix_t_multiply(matrix_t* matrix1, matrix_t* matrix2)
     return result;
 }
 
-static const size_t MINIMUM_THREAD_LOAD = 1; /*10 * 1000;*/
+static const size_t MINIMUM_THREAD_LOAD = 10 * 1000;
 
 typedef struct thread_info {
     matrix_t* left_matrix;

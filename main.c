@@ -31,6 +31,11 @@ static size_t get_milliseconds()
     return time.tv_sec * 1000 + time.tv_usec / 1000;
 }
 
+static size_t get_number_of_processors()
+{
+    return (size_t) sysconf(_SC_NPROCESSORS_ONLN);
+}
+
 static int matrix_equals(matrix_t* a, matrix_t* b)
 {
     size_t x;
@@ -80,7 +85,7 @@ int main() {
     end_time = get_milliseconds();
     
     printf("%zu-threaded multiplication in %zu milliseconds.\n",
-           sysconf(_SC_NPROCESSORS_ONLN),
+           get_number_of_processors(),
            end_time - start_time);
     
     printf("Algorithms agree: %d\n", matrix_equals(ab1, ab2));
