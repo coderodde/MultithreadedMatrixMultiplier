@@ -58,13 +58,15 @@ static int matrix_equals(matrix_t* a, matrix_t* b)
 int main() {
     size_t start_time;
     size_t end_time;
+    matrix_t* a;
+    matrix_t* b;
     matrix_t* ab1;
     matrix_t* ab2;
     
     srand((unsigned int) time(NULL));
     
-    matrix_t* a = create_random_matrix(300, 300);
-    matrix_t* b = create_random_matrix(300, 300);
+    a = create_random_matrix(1000, 1000);
+    b = matrix_t_copy(a);
     
     start_time = get_milliseconds();
     ab1 = matrix_t_multiply(a, b);
