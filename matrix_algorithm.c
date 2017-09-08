@@ -2,6 +2,7 @@
 #include "matrix_algorithm.h"
 #include <stdio.h>
 #include <pthread.h>
+#include <unistd.h>
 
 #define MAX(x,y) (((x) > (y)) ? (x) : (y))
 #define MIN(x,y) (((x) < (y)) ? (x) : (y))
@@ -107,15 +108,15 @@ matrix_t* matrix_t_multiply_parallel(matrix_t* left_matrix,
                 right_matrix->m_cols *
                 right_matrix->m_rows;
     
-    num_threads = work_load / MINIMUM_THREAD_LOAD;
-    num_threads = MAX(num_threads, 1);
+    num_threads = sysconf(_SC_NPROCESSORS_ONLN);
+    num_threads = MIN(num_threads, work_load / MINIMUM_THREAD_LOAD);
     num_threads = MIN(num_threads, left_matrix->m_rows);
+    num_threads = MAX(num_threads, 1);
     
     if (num_threads == 1)
     {
         return matrix_t_multiply(left_matrix, right_matrix);
     }
-    puts("oh fuck yeah");
     
     basic_rows_per_thread = left_matrix->m_rows / num_threads;
     thread_info_structs = calloc(num_threads, sizeof(thread_info));
